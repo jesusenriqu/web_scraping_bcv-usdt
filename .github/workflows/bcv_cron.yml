@@ -8,6 +8,10 @@ on:
   #permite ejecutarlo manualmente desde la pestaña "Actions" en GitHub
   workflow_dispatch:
 
+#permiso para hacer push
+permissions:
+  contents: write
+
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
