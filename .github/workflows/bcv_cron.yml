@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #1 descargar tu código en el servidor temporal de GitHub
+      #1 descargar el código en el servidor temporal de GitHub
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
@@ -36,7 +36,7 @@ jobs:
           python -m playwright install chromium
           python -m playwright install-deps chromium
 
-      #4 ejecutar tu script principal
+      #4 ejecutar script principal
       - name: Ejecutar script de scraping
         run: python ejecutar_script_git.py
 
