@@ -34,7 +34,7 @@ jobs:
 
       #4 ejecutar tu script principal
       - name: Ejecutar script de scraping
-        run: ejecutar_script_git.py
+        run: python ejecutar_script_git.py
 
       #5 guardar automáticamente los nuevos registros de SQLite de vuelta en el repositorio
       - name: Actualizar base de datos SQLite
