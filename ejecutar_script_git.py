@@ -1,6 +1,6 @@
 from funciones_actions import BCV_ACT, inicializar_base_datos
 
-#Archivo principal
+#archivo principal
 if __name__ == "__main__":
     #crea la tabla si no existe al iniciar el script
     inicializar_base_datos()
