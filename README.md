@@ -4,4 +4,4 @@ Sistema Python automatizado para rastrear tasas del BCV y Binance (USDT) mediant
 
 El archivo web_scraping_bcv_usdt_pb.py concentra la lógica principal y el programa completo para realizar la extracción de las tasas cambiarias, en tres horarios determinados por día.
 
-Por otro lado, los archivos ejecutar_script_git.py, funciones_actions.py, requirements.txt y la carpeta .github/workflows conforman la  automatización en GitHub. Su propósito es ejecutar el script de manera remota y programada en la nube, asegurando que la base de datos histórica se mantenga actualizada todos los días en los horarios establecidos.
+Por otro lado, los archivos ejecutar_script_git.py, funciones_actions.py, requirements.txt y la carpeta .github/workflows conforman la  automatización en GitHub. Su propósito es ejecutar el script de manera remota y programada en la nube, asegurando que la base de datos histórica se mantenga actualizada todos los días en los horarios establecidos (tener en cuenta que la hora esta en UTC, para tener la hora de venezuela tienes que restarle 4 horas).
