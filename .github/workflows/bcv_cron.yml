@@ -2,9 +2,9 @@ name: Automatizar Tasas BCV y USDT
 
 on:
   schedule:
-    #se ejecuta a las 07:00, 13:00 y 21:00 hora de Venezuela (convertido a UTC: 11:00, 17:00, 01:00)
+    #07:00, 13:00 y 21:00 hora de Venezuela (UTC-4) = 11:00, 17:00 y 01:00 UTC
     - cron: '13 6,11,17 * * *'
-  
+
   #permite ejecutarlo manualmente desde la pestaña "Actions" en GitHub
   workflow_dispatch:
 
@@ -14,21 +14,22 @@ permissions:
 
 jobs:
   run-scraper:
-    runs-on: ubuntu-latest
+    #fijado a una versión concreta para evitar cambios inesperados al migrar ubuntu-latest a Ubuntu 26
+    runs-on: ubuntu-24.04
 
     steps:
       #1 descargar el código en el servidor temporal de GitHub
       - name: Checkout del repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       #2 configurar Python
       - name: Configurar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
+          python-version: '3.14'
           cache: 'pip'
 
-      #3 instalar las librerias
+      #3 instalar las librerías
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
@@ -36,16 +37,19 @@ jobs:
           python -m playwright install chromium
           python -m playwright install-deps chromium
 
-      #4 ejecutar script principal
+      # 4. ejecutar script principal
       - name: Ejecutar script de scraping
         run: python ejecutar_script_git.py
 
-      #5 guardar automáticamente los nuevos registros de SQLite de vuelta en el repositorio
+      #5 guardar los nuevos registros de SQLite de vuelta en el repositorio
       - name: Actualizar base de datos SQLite
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add tasas_historico.db
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: actualizar base de datos historica automatica" && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: actualizar base de datos historica automatica"
+            git push
+          fi
