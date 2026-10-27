@@ -3,7 +3,7 @@ name: Automatizar Tasas BCV y USDT
 on:
   schedule:
     #07:00, 13:00 y 21:00 hora de Venezuela (UTC-4) = 11:00, 17:00 y 01:00 UTC
-    - cron: '13 6,11,17 * * *'
+    - cron: '21 1,11,17 * * *'
 
   #permite ejecutarlo manualmente desde la pestaña "Actions" en GitHub
   workflow_dispatch:
