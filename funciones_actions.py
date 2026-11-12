@@ -2,6 +2,7 @@ import requests
 import urllib3
 import sqlite3
 import time
+import os
 import random
 from playwright.sync_api import sync_playwright
 from datetime import datetime
@@ -9,8 +10,13 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) #borrar error de pag no segura
 
-#nombre del archivo de base de datos local
-DB_NAME = "tasas_historico.db"
+CARPETA_DESTINO = r"D:\19._Trabajos_de_Programacion\1-. Proyectos_Portafolio\2-. Web Scraping\proyecto de github"
+
+#creas la carpeta automáticamente si aún no existe
+os.makedirs(CARPETA_DESTINO, exist_ok=True)
+
+#defines DB_NAME con la ruta absoluta completa
+DB_NAME = os.path.join(CARPETA_DESTINO, "tasas_historico.db")
 
 def inicializar_base_datos():
     #crea la tabla si no existe al iniciar el script
@@ -27,7 +33,8 @@ def inicializar_base_datos():
             cny REAL,
             rub REAL,
             -- Columna calculada automáticamente
-            dif REAL GENERATED ALWAYS AS (ROUND((usdt_compra/usd - 1)*100,4)) STORED
+            dif_compra REAL GENERATED ALWAYS AS (ROUND((usdt_compra/usd - 1)*100,4)) STORED,
+            dif_venta REAL GENERATED ALWAYS AS (ROUND((usdt_venta/usd - 1)*100,4)) STORED
         )
     """)
     conexion.commit()
@@ -61,10 +68,10 @@ def BCV_ACT(URL,URL1):
             div_rub = soup.find('div', id='rublo')
             
             #convertir a valor con decimal de 4 cifras significativas y en el caso de no encontrar colocar n/a
-            usd = round(float(div_usd.get_text(strip=True).strip('USD').replace(',', '.')),4) if div_usd else None
-            eur = round(float(div_eur.get_text(strip=True).strip('EUR').replace(',', '.')),4) if div_eur else None
-            cny = round(float(div_cny.get_text(strip=True).strip('CNY').replace(',', '.')),4) if div_cny else None
-            rub = round(float(div_rub.get_text(strip=True).strip('RUB').replace(',', '.')),4) if div_rub else None
+            usd = round(float(div_usd.get_text(strip=True).strip('USD').replace('.', '').replace(',', '.')),4) if div_usd else None
+            eur = round(float(div_eur.get_text(strip=True).strip('EUR').replace('.', '').replace(',', '.')),4) if div_eur else None
+            cny = round(float(div_cny.get_text(strip=True).strip('CNY').replace('.', '').replace(',', '.')),4) if div_cny else None
+            rub = round(float(div_rub.get_text(strip=True).strip('RUB').replace('.', '').replace(',', '.')),4) if div_rub else None
             
             r.close() #cerrar el requests
         else:
