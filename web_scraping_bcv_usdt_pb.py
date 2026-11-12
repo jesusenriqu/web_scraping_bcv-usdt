@@ -29,7 +29,8 @@ def inicializar_base_datos():
             cny REAL,
             rub REAL,
             -- Columna calculada automáticamente
-            dif REAL GENERATED ALWAYS AS (ROUND((usdt_compra/usd - 1)*100,4)) STORED
+            dif_compra REAL GENERATED ALWAYS AS (ROUND((usdt_compra/usd - 1)*100,4)) STORED,
+            dif_venta REAL GENERATED ALWAYS AS (ROUND((usdt_venta/usd - 1)*100,4)) STORED
         )
     """)
     conexion.commit()
@@ -63,10 +64,10 @@ def BCV_ACT(URL,URL1):
             div_rub = soup.find('div', id='rublo')
             
             #convertir a valor con decimal de 4 cifras significativas y en el caso de no encontrar colocar n/a
-            usd = round(float(div_usd.get_text(strip=True).strip('USD').replace(',', '.')),4) if div_usd else None
-            eur = round(float(div_eur.get_text(strip=True).strip('EUR').replace(',', '.')),4) if div_eur else None
-            cny = round(float(div_cny.get_text(strip=True).strip('CNY').replace(',', '.')),4) if div_cny else None
-            rub = round(float(div_rub.get_text(strip=True).strip('RUB').replace(',', '.')),4) if div_rub else None
+            usd = round(float(div_usd.get_text(strip=True).strip('USD').replace('.', '').replace(',', '.')),4) if div_usd else None
+            eur = round(float(div_eur.get_text(strip=True).strip('EUR').replace('.', '').replace(',', '.')),4) if div_eur else None
+            cny = round(float(div_cny.get_text(strip=True).strip('CNY').replace('.', '').replace(',', '.')),4) if div_cny else None
+            rub = round(float(div_rub.get_text(strip=True).strip('RUB').replace('.', '').replace(',', '.')),4) if div_rub else None
             
             r.close() #cerrar el requests
         else:
@@ -74,7 +75,7 @@ def BCV_ACT(URL,URL1):
         
         #buscar la tasa usdt en binance
         with sync_playwright() as p:
-            navegador = p.chromium.launch()
+            navegador = p.chromium.launch(headless=True)
             cont = navegador.new_context(user_agent=headers["User-Agent"])
             r1 = cont.new_page()
             r1.goto(URL1)
