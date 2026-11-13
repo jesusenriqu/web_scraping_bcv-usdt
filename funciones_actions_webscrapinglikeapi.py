@@ -10,12 +10,12 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) #borrar error de pag no segura
 
-#defines DB_NAME con la ruta absoluta completa
-DB_NAME = "tasas_historico_webscrapinglikeapi.db"
+#defines DB_NAME_WAPI con la ruta absoluta completa
+DB_NAME_WAPI = "tasas_historico_webscrapinglikeapi.db"
 
 def inicializar_base_datos_webscrapinglikeapi():
     #crea la tabla si no existe al iniciar el script
-    conexion = sqlite3.connect(DB_NAME)
+    conexion = sqlite3.connect(DB_NAME_WAPI)
     cursor = conexion.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS tasas_historico_webscrapinglikeapi (
@@ -37,7 +37,7 @@ def inicializar_base_datos_webscrapinglikeapi():
 
 def guardar_en_bd(usd, usdt_compra, usdt_venta, eur, cny, rub):
     #inserta todas las tasas en sus respectivas columnas junto con la fecha-hora
-    conexion = sqlite3.connect(DB_NAME)
+    conexion = sqlite3.connect(DB_NAME_WAPI)
     cursor = conexion.cursor()
     fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
