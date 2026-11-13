@@ -41,6 +41,9 @@ jobs:
       - name: Ejecutar script de scraping
         run: python ejecutar_script_git.py
 
+      - name: Listar archivos en la raíz
+        run: ls -la
+
       #5 guardar los nuevos registros de SQLite de vuelta en el repositorio
       - name: Actualizar base de datos SQLite
         env:
