@@ -8,12 +8,12 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) #borrar error de pag no segura
 
-#defines DB_NAME con la ruta absoluta completa
-DB_NAME = "tasas_historico_api.db"
+#defines DB_NAME_API con la ruta absoluta completa
+DB_NAME_API = "tasas_historico_api.db"
 
 def inicializar_base_datos_api():
     #crea la tabla si no existe al iniciar el script
-    conexion = sqlite3.connect(DB_NAME)
+    conexion = sqlite3.connect(DB_NAME_API)
     cursor = conexion.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS tasas_historico_api (
@@ -35,7 +35,7 @@ def inicializar_base_datos_api():
 
 def guardar_en_bd_api(usd, usdt_compra, usdt_venta, eur, cny, rub):
     #inserta todas las tasas en sus respectivas columnas junto con la fecha-hora
-    conexion = sqlite3.connect(DB_NAME)
+    conexion = sqlite3.connect(DB_NAME_API)
     cursor = conexion.cursor()
     fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
