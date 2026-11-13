@@ -88,9 +88,9 @@ def BCV_ACT(URL,URL1):
             #tasas a buscar
             div_usdt = soup1.find('div', class_='bn-flex flex-col gap-y-2 md:flex-row md:flex-1')
             div_usdt = div_usdt.get_text(separator=" ",strip=True)
-            #convertir a valor con decimal de 2 cifras significativas y en el caso de no encontrar colocar n/a
-            usdt_compra = round(float(div_usdt.split(" ")[3].replace(",","")),2) if div_usdt else None
-            usdt_venta = round(float(div_usdt.split(" ")[8].replace(",","")),2) if div_usdt else None
+            #convertir a valor con decimal de 4 cifras significativas y en el caso de no encontrar colocar n/a
+            usdt_compra = round(float(div_usdt.split(" ")[3].replace(",","")),4) if div_usdt else None
+            usdt_venta = round(float(div_usdt.split(" ")[8].replace(",","")),4) if div_usdt else None
             
             cont.close() #cerrar el contexto del navegador
             navegador.close() #cerrar el navegador
