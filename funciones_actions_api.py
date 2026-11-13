@@ -8,13 +8,8 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) #borrar error de pag no segura
 
-CARPETA_DESTINO = r"D:\19._Trabajos_de_Programacion\1-. Proyectos_Portafolio\2-. Web Scraping\proyecto de github"
-
-#creas la carpeta automáticamente si aún no existe
-os.makedirs(CARPETA_DESTINO, exist_ok=True)
-
 #defines DB_NAME con la ruta absoluta completa
-DB_NAME = os.path.join(CARPETA_DESTINO, "tasas_historico_api.db")
+DB_NAME = "tasas_historico_api.db"
 
 def inicializar_base_datos_api():
     #crea la tabla si no existe al iniciar el script
