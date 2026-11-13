@@ -35,7 +35,7 @@ def inicializar_base_datos_webscrapinglikeapi():
     conexion.commit()
     conexion.close()
 
-def guardar_en_bd(usd, usdt_compra, usdt_venta, eur, cny, rub):
+def guardar_en_bd_wapi(usd, usdt_compra, usdt_venta, eur, cny, rub):
     #inserta todas las tasas en sus respectivas columnas junto con la fecha-hora
     conexion = sqlite3.connect(DB_NAME_WAPI)
     cursor = conexion.cursor()
@@ -107,7 +107,7 @@ def BCV_ACT_webscrapinglikeapi(URL,URL1,URL2):
         usdt_venta = obtener_usdt_binance(URL2)
         
         #guardar informacion de la n cantidad de tasas
-        guardar_en_bd(usd, usdt_compra, usdt_venta, eur, cny, rub)
+        guardar_en_bd_wapi(usd, usdt_compra, usdt_venta, eur, cny, rub)
         
     except Exception as e:
         print(f"Ocurrió un error durante el scraping: {e}")
